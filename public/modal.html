@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <title>Simple Modal</title>
+    <style>
+      .modal {
+        transition: opacity 0.25s ease;
+      }
+      body.modal-active {
+        overflow-x: hidden;
+        overflow-y: visible !important;
+      }
+      .modal-wrapper {
+        transition: opacity 0.25s ease;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        left: 0;
+        top: 0;
+        position: fixed;
+        opacity: 1;
+      }
+      .opacity-0 {
+        opacity: 0;
+      }
+      .modal-overlay {
+        opacity: 0.5;
+        background-color: rgba(17, 24, 39, 1);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      @media (min-width: 768px) {
+        .modal-container {
+          max-width: 28rem;
+        }
+      }
+      .modal-container {
+        background-color: rgba(255, 255, 255, 1);
+        border-radius: 0.25rem;
+        overflow-y: auto;
+        width: 91.666667%;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 50;
+      }
+      .modal-content {
+        padding: 1rem 1.5rem;
+      }
+      .modal-content-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 0.75rem;
+      }
+      .modal-title {
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+      .modal-body {
+        max-height: 300px;
+        overflow-y: scroll;
+      }
+      .modal-close {
+        cursor: pointer;
+        z-index: 50;
+      }
+      .footer {
+        padding-top: 0.5rem;
+        justify-content: flex-end;
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="modal-open" type="button" onclick="toggleModal(false)">
+      Open Modal
+    </button>
+
+    <!--Modal-->
+    <div
+      class="modal modal-wrapper opacity-0"
+      id="modal-wrapper"
+    >
+      <div class="modal-overlay" onclick="toggleModal(true)"></div>
+
+      <div class="modal-container">
+        <!-- Add margin if you want to see some of the overlay behind the modal-->
+        <div class="modal-content">
+          <!--Title-->
+          <div class="modal-content-wrapper">
+            <p class="modal-title">Simple Modal!</p>
+            <div class="modal-close" onclick="toggleModal(true)">
+              <svg
+                class="fill-current text-black"
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+              >
+                <path
+                  d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+           <!--Body-->
+          <div class="modal-body">
+            <h2>Scroll Me</h2>
+            <img src="https://via.placeholder.com/468x800" style="width:100%;"/>
+          </div>
+          <!--Footer-->
+          <div class="footer">
+            <button class="modal-close" onclick="toggleModal(true)">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var modalwrapper = document.getElementById("modal-wrapper");
+        var modalBody = modalwrapper.outerHTML;
+        var timeout = null;
+        modalwrapper.remove();
+        window.toggleModal = function (close) {
+          if (close === false) {
+            document
+              .getElementsByTagName("body")[0]
+              .insertAdjacentHTML("beforeend", modalBody);
+          }
+          const body = document.querySelector("body");
+          const modal = document.querySelector(".modal");
+          modal.classList.toggle("opacity-0");
+          body.classList.toggle("modal-active");
+          clearTimeout(timeout);
+
+          timeout = setTimeout(function () {
+            if (close === true) {
+              var overlay = document.querySelector(".modal-overlay");
+              overlay.removeEventListener("click", window.toggleModal);
+              modalwrapper.remove();
+            }
+          }, 300);
+        };
+        document.onkeydown = function (evt) {
+          evt = evt || window.event;
+          var isEscape = false;
+          if ("key" in evt) {
+            isEscape = evt.key === "Escape" || evt.key === "Esc";
+          } else {
+            isEscape = evt.keyCode === 27;
+          }
+          if (isEscape && document.body.classList.contains("modal-active")) {
+            toggleModal();
+          }
+        };
+      })();
+    </script>
+  </body>
+</html>

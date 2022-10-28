@@ -11,3 +11,75 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.modal {
+  transition: opacity 0.25s ease;
+}
+body.modal-active {
+  overflow-x: hidden;
+  overflow-y: visible !important;
+}
+.modal-wrapper {
+  transition: opacity 0.25s ease;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  left: 0;
+  top: 0;
+  position: fixed;
+  opacity: 1;
+}
+.opacity-0 {
+  opacity: 0;
+}
+.modal-overlay {
+  opacity: 0.5;
+  background-color: rgba(17, 24, 39, 1);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+@media (min-width: 768px) {
+  .modal-container {
+    max-width: 28rem;
+  }
+}
+.modal-container {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 0.25rem;
+  overflow-y: auto;
+  width: 91.666667%;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 50;
+}
+.modal-content {
+  padding: 1rem 1.5rem;
+}
+.modal-content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+}
+.modal-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.modal-body {
+  max-height: 300px;
+  overflow-y: scroll;
+}
+.modal-close {
+  cursor: pointer;
+  z-index: 50;
+}
+.footer {
+  padding-top: 0.5rem;
+  justify-content: flex-end;
+  display: flex;
+}
